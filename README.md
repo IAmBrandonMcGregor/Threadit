@@ -6,3 +6,5 @@
 /_/ /_/ /_/_/   \___/\__,_/\__,_/_/\__(_)_/ /____/  
                                        /___/        
 ````
+
+Usage Information and Examples [Here](http://iambrandonmcgregor.github.io/Threadit/).
