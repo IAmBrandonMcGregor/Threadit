@@ -1,0 +1,29 @@
+{
+  "name": "Threadit",
+  "main": "Threadit.js",
+  "version": "0.0.0",
+  "homepage": "https://github.com/IAmBrandonMcGregor/Threadit",
+  "authors": [
+    "Brandon McGregor <iambrandonmcgregor@gmail.com>"
+  ],
+  "description": "A javascript library for creating functions that run within a web-worker and return a promise.",
+  "moduleType": [
+    "amd",
+    "globals",
+    "node"
+  ],
+  "keywords": [
+    "webworker",
+    "worker",
+    "thread",
+    "multithread"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
