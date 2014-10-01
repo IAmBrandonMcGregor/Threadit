@@ -19,5 +19,34 @@
 	</head>
 	<body>
 		<h1 id="Title">Threadit<h1>
+		<div data-height="598" data-theme-id="8893" data-slug-hash="GHkLf" data-default-tab="js" data-user="IAmBrandonMcGregor" class='codepen'><pre><code>
+			// Define a function that we will threaditize shortly.
+			function lockThread (jankDuration) {
+			  
+			  var startTime = Date.now();
+			  var endTime = startTime + jankDuration;
+			  
+			  console.info(&quot;About to block thread...&quot;);
+			  while (Date.now() &lt; endTime) { /* we&#39;re blocking the main thread now. */ }
+			  console.info(&quot;The thread is now unblocked.&quot;);
+			  
+			  return jankDuration;
+			}
+
+			var lockOtherThread = new Threadit(lockThread);
+
+			// Attach the unthreaded function to the main-thread button.
+			document.getElementById(&#39;unthreaded&#39;).addEventListener(&#39;click&#39;, function () {
+			  console.log(&quot;Advanced Computation: &quot; + lockThread(1500));
+			});
+
+			// Attach the threaded function to the other-thread button.
+			document.getElementById(&#39;threaded&#39;).addEventListener(&#39;click&#39;, function () {
+			  lockOtherThread(1500).then(function (threadRet) {
+			    window.console.log(&#39;Yep.... thread locked for &#39; + threadRet + &#39;ms.&#39;);
+			  });
+			});</code></pre>
+			<p>See the Pen <a href='http://codepen.io/IAmBrandonMcGregor/pen/GHkLf/'>Threadit Example</a> by Brandon McGregor (<a href='http://codepen.io/IAmBrandonMcGregor'>@IAmBrandonMcGregor</a>) on <a href='http://codepen.io'>CodePen</a>.</p>
+		</div><script async src="//codepen.io/assets/embed/ei.js"></script>
 	</body>
 </html>
