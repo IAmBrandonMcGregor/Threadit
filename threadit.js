@@ -3,15 +3,15 @@
 
 	// Setup Threadit appropriately for the environment.
 
-	//Start with AMD.
+	// Start with AMD...
 	if (typeof define === 'function' && define.amd) {
 		define([], factory);
 	}
-	// Next for Node.js or CommonJS.
+	// ...next try CommonJS...
 	else if (typeof module === 'object' && module.exports) {
 		module.exports = factory();
 	}
-	// finally, as a browser global.
+	// ...and finally, as a browser global.
 	else {
 		root.Threadit = factory();
 	}
@@ -26,10 +26,10 @@
     // Create a functoin (this thread) that runs the new external-worker.
     var threadedFunction = function () {
 
-      // cache a copy of the parameters we'll later pass to the external-worker.
+      // Cache a copy of the parameters we'll later pass to the external-worker.
       var argsToSendToThread = Array.prototype.slice.apply(arguments, [0]);
 
-      // return a promise so we can free up the main thread.
+      // Return a promise so we can free up the main thread.
       return new Promise(function (resolve, reject) {
 
         // Resolve the promise when the worker/thread is finished.
@@ -61,10 +61,10 @@
     else {
       window.console.log('Threadit: called as function.');
 
-      // auto-destroy the web worker once it's finished running this once.
+      // Auto-destroy the web worker once it's finished running this once.
       worker.addEventListener('message', threadedFunction.destroy);
 
-      // copy the arguments this function was called with.
+      // Copy the arguments this function was called with.
       var threaditCallArgs = Array.prototype.slice.apply(arguments, [1]);
 
       return threadedFunction.apply(this, threaditCallArgs);
