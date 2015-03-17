@@ -1,0 +1,144 @@
+<html>
+	<head>
+		<title>ThreaditJS Development</title>
+	</head>
+
+	<script src="threadit.js"></script>
+
+	<!-- Styling. -->
+	<style>
+		html, body { margin: 0; padding: 0; }
+		.clearfix:after {
+		  content: "";
+		  display: table;
+		  clear: both;
+		}
+		body { padding-top: 50px; }
+		.page-title, .loading-cat-wrapper { text-align: center; }
+		.buttons-wrapper {
+			width: 100%;
+			text-align: left;
+		}
+		.buttons-wrapper .left-half, .buttons-wrapper .right-half {
+			float: left;
+			width: 50%;
+			margin-top: 50px;
+			text-align: center;
+		}
+		.button {
+			display: inline-block;
+			padding: 30px;
+			border: 1px solid black;
+			cursor: pointer;
+		}
+		.button:active {
+			transform: translate3d(0px, 1px, 0px);
+			-webkit-transform: translate3d(0px, 1px, 0px);
+			-moz-transform: translate3d(0px, 1px, 0px);
+			-o-transform: translate3d(0px, 1px, 0px);
+		}
+		.message-wrapper {
+			margin-top: 30px;
+			text-align: center;
+			font-size: 1.5em;
+		}
+	</style>
+
+	<body>
+		<h1 class="page-title">ThreaditJS Development</h1>
+		<div class="loading-cat-wrapper">
+			<img class="loading-cat" src="loading_cat.gif"/>
+		</div>
+		<div class="buttons-wrapper clearfix">
+			<div class="left-half">
+				<div id="UnthreadedButton" class="unthreaded button">
+					<span>unthreaded</span>
+				</div>
+			</div>
+			<div class="right-half">
+				<div id="ThreadedButton" class="threaded button">
+					<span>threaded</span>
+				</div>
+			</div>
+		</div>
+		<div class="message-wrapper">
+			<span>Status: </span>
+			<span id="Status">idle</span>
+		</div>
+	</body>
+
+
+	<script>
+
+		// Cache some DOM references and other objects/references.
+		var unthreadedButton = document.getElementById('UnthreadedButton'),
+			threadedButton = document.getElementById('ThreadedButton'),
+			stat = document.getElementById('Status'),
+			threadedLock = new Threadit(lockThread),
+			lockTimeInMilliseconds = 1000;
+
+		// Add a click action to the Unthreaded button.
+		unthreadedButton.addEventListener('click', function handleUnthreadedClick (event) {
+
+			// Update the status.
+			stat.innerHTML = 'thread locked';
+
+			// Ensure the browser renders the status before actually locking the DOM.
+			window.requestAnimationFrame(function () {
+				window.requestAnimationFrame(function () {
+					lockThread(lockTimeInMilliseconds);
+					stat.innerHTML = 'idle';
+				});
+			});
+		});
+
+		// Add a click action to the Threaded button.
+		threadedButton.addEventListener('click', function handledThreadedClick (event) {
+
+			// Update the status.
+			stat.innerHTML = 'thread locked';
+
+			// Lock the other thread and update the DOM when it's finished.
+			threadedLock(lockTimeInMilliseconds).then(function handleThreadReturn (threadReturn) {
+				stat.innerHTML = 'idle';
+			});
+		});
+
+		// Define a function to lock the thread for a specified amount of time.
+		// - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  ---
+		function lockThread (jankDuration) {
+
+			var startTime = Date.now();
+			var endTime = startTime + jankDuration;
+
+			// Block the current thread for the desired duration.
+			while (Date.now() < endTime) { /* we're blocking the main thread now. */ }
+
+			// Return how long the thread was locked for.
+			return (Date.now() - startTime);
+		}
+
+	</script>
+</html>
+
+
+
+
+
+
+
+
+
+
+<!-- This space intentionally left blank -->
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,19 @@
+{
+  "name": "threadit",
+  "version": "0.1.0",
+  "description": "A javascript library for creating functions that run within a web-worker and return a promise.",
+  "keywords": [
+    "webworker",
+    "worker",
+    "thread",
+    "multithread",
+    "threadit",
+    "threaditjs"
+  ],
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "gulp": "^3.8.11",
+    "browser-sync": "^2.2.2"
+  }
+}
