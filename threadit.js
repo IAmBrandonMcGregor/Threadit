@@ -23,7 +23,7 @@
     var jsURL = CreateExternalJavascriptBlob(threadFunction);
     var worker = new Worker(jsURL);
 
-    // Create a functoin (this thread) that runs the new external-worker.
+    // Create a function (this thread) that runs the new external-worker.
     var threadedFunction = function () {
 
       // Cache a copy of the parameters we'll later pass to the external-worker.
@@ -82,12 +82,16 @@
     return window.URL.createObjectURL(inlineWorkerScript);
   }
   // -----------------
-	function WorkerizeStringitize (functionToStringify) {
+	function WorkerizeStringitize (functionToStringitize) {
 		var stringitizedFunk =
+      'var threadedFunction = ' + functionToStringitize + '; \n\n'+
 			'onmessage = function (message) { \n'+
-      '  var threadedFunction = ' + functionToStringify + ';\n'+
-      '  postMessage(threadedFunction.apply(null, message.data.args));\n'+
-			'};';
+      '  var result = threadedFunction.apply(null, message.data.args) \n'+
+      '  if (result.then) \n'+
+      '    result.then(postMessage, postMessage); \n'+
+      '  else \n'+
+      '    postMessage(result); \n'+
+			'}; \n';
 		return stringitizedFunk;
 	}
 
