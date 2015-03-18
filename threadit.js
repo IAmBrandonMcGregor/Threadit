@@ -34,7 +34,12 @@
 
         // Resolve the promise when the worker/thread is finished.
         worker.addEventListener('message', function ResolvePromise (message) {
-          resolve(message.data);
+          if (message.data.rejectThisPromise) {
+            reject(message.data.data);
+          }
+          else {
+            resolve(message.data);
+          }
           worker.removeEventListener('message', ResolvePromise);
         });
 
@@ -88,7 +93,9 @@
 			'onmessage = function (message) { \n'+
       '  var result = threadedFunction.apply(null, message.data.args) \n'+
       '  if (result.then) \n'+
-      '    result.then(postMessage, postMessage); \n'+
+      '    result.then(postMessage, function (error) { \n'+
+      '      postMessage({rejectThisPromise: true, data: error}) \n'+
+      '    }); \n'+
       '  else \n'+
       '    postMessage(result); \n'+
 			'}; \n';
